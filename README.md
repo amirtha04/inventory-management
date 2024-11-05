@@ -16,4 +16,3 @@ List Products: Display all products currently in inventory.
 
 Each page includes a sidebar for easy navigation across all sections.
 
-![WhatsApp Image 2024-11-05 at 11 56 18_552d8bec](https://github.com/user-attachments/assets/1613c36f-69f6-47b8-a07d-63f2713fe0a6)

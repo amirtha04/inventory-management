@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Mart Inventory Management</title>
+   
+    <style>
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+/* Container */
+.container {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background-color: #343a40;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 20px;
+}
+
+.sidebar ul li a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    background-color: #495057;
+}
+
+/* Main Content Styling */
+.main-content {
+    margin-left: 300px; 
+    padding: 40px;
+    padding-right: 0%;
+    width: calc(100% - 270px); 
+    background-color: #fff;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); 
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    gap: 10px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#searchResults {
+    margin-top: 30px;
+}
+
+#searchResults h2 {
+    font-size: 22px;
+    color: #333;
+}
+.category-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .category-box {
+            width: 150px;
+            height: 150px;
+            background-color: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .category-box:hover {
+            transform: translateY(-10px);
+        }
+
+        .category-icon {
+            font-size: 40px;
+            color: #4caf50;
+            margin-bottom: 10px;
+        }
+
+        .category-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .dashboard-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 80%;
+            max-width: 1500px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        .dashboard-content {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .dashboard-content h1 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .dashboard-content p {
+            font-size: 18px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .dashboard-image {
+            flex: 1;
+            text-align: right;
+        }
+
+        .dashboard-image img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+        }
+/*
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #f9f9f9;
+}*/
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>eMart Inventory</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="add-product.html">Add Products</a></li>
+                <li><a href="update-product.html">Update Products</a></li>
+                <li><a href="delete-product.html">Delete Products</a></li>
+                <li><a href="search-product.html">Search Products</a></li>
+                <li><a href="list-product.html">List Products</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="dashboard-container">
+                <div class="dashboard-content">
+                    <h1>Welcome to eMart Dashboard!</h1>
+                    <p>Easily manage your grocery store inventory with our intuitive system.</p>
+                    <p>Track products, update stock, and monitor sales in real-time.</p>
+                    <p>Stay on top of your business with detailed analytics and reports at your fingertips!</p>
+                </div>
+                <div class="dashboard-image">
+                    <img src="https://cdni.iconscout.com/illustration/premium/thumb/delivery-man-making-inventory-list-illustration-download-in-svg-png-gif-file-formats--order-worksheet-management-pack-e-commerce-shopping-illustrations-7534866.png?f=webp" alt="Dashboard Image">
+                </div>
+            </div>
+            
+    <h2>Manage Your Products</h2><br>
+        <div class="category-container">
+            <div class="category-box">
+                <div class="category-icon"><img src="https://cdn-icons-png.flaticon.com/512/10608/10608872.png" width="50px" height="50px"></div>
+                <div class="category-name"><a href="add-product.html">Add Products</a></div>
+            </div>
+            <div class="category-box">
+                <div class="category-icon"><img src="https://cdn-icons-png.flaticon.com/512/4059/4059903.png" width="50px" height="50px"></div>
+                <div class="category-name"><a href="update-product.html">Update Products</a></div>
+            </div>
+            <div class="category-box">
+                <div class="category-icon"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH0Qi34DDS3wpbv6U0O5n7Ne4WSF3ssX4CIQ&s" width="50px" height="50px"></div>
+                <div class="category-name"><a href="delete-product.html">Delete Products</a></div>
+            </div>
+            <div class="category-box">
+                <div class="category-icon"><img src="https://cdn-icons-png.flaticon.com/256/3875/3875911.png" width="50px" height="50px"></div>
+                <div class="category-name"><a href="search-product.html">Search Products</a></div>
+            </div>
+            <div class="category-box">
+                <div class="category-icon"><img src="https://cdn-icons-png.flaticon.com/512/8161/8161879.png" width="50px" height="50px"></div>
+                <div class="category-name"><a href="list-product.html">List Products</a></div>
+            </div>
+            <br><br>
+            </div>
+            <div><br><div></div><br></div> 
+        </div>
+        
+    </div>
+</body>
+</html>
+
+
+<!--
+    <div class="container">
+        <h1>E-Mart Inventory Management</h1>
+        <p>Effortless Product Management for Your Grocery Store</p>
+
+        <div class="section">
+            <h2>Welcome to eMart Inventory Manager. Simplify your inventory tasks with our easy-to-use platform!</h2>
+            <img src="https://cdni.iconscout.com/illustration/premium/thumb/young-man-working-on-automated-warehouse-management-illustration-download-in-svg-png-gif-file-formats--smart-factory-production-pack-people-illustrations-6430806.png"> 
+        </div>
+
+        
+        <div class="section">
+            <h2>Add Product</h2>
+            <input type="text" id="productId" placeholder="Product ID">
+            <input type="text" id="productName" placeholder="Product Name">
+            <input type="number" id="productPrice" placeholder="Product Price">
+            <input type="number" id="productQuantity" placeholder="Product Quantity">
+            <button class="button" onclick="addProduct()">Add Product</button>
+        </div>
+
+        <hr>
+
+       
+        <div class="section">
+            <h2>Update Product</h2>
+            <input type="text" id="updateProductId" placeholder="Product ID">
+            <input type="text" id="updateProductName" placeholder="New Product Name">
+            <input type="number" id="updateProductPrice" placeholder="New Product Price">
+            <input type="number" id="updateProductQuantity" placeholder="New Product Quantity">
+            <button class="button" onclick="updateProduct()">Update Product</button>
+        </div>
+
+        <hr>
+
+       
+        <div class="section">
+            <h2>Delete Product</h2>
+            <input type="text" id="deleteProductId" placeholder="Product ID">
+            <button class="button" onclick="deleteProduct()">Delete Product</button>
+        </div>
+
+        <hr>
+
+       
+        <div class="section">
+            <h2>Search Product</h2>
+            <input type="text" id="searchProductName" placeholder="Product Name">
+            <button class="button" onclick="searchProduct()">Search Product</button>
+            <div id="searchResult"></div>
+        </div>
+
+        <hr>
+
+    
+        <div class="section">
+            <h2>Product Inventory</h2>
+            <button class="button" onclick="listProducts()">List Products</button>
+            <ul id="productList"></ul>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080/api/products';
+
+        // Add Product
+        function addProduct() {
+            const product = {
+                id: document.getElementById('productId').value,
+                name: document.getElementById('productName').value,
+                price: document.getElementById('productPrice').value,
+                quantity: document.getElementById('productQuantity').value
+            };
+
+            fetch(API_URL + '/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(product),
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            });
+        }
+
+        // Update Product
+        function updateProduct() {
+            const updatedProduct = {
+                name: document.getElementById('updateProductName').value,
+                price: document.getElementById('updateProductPrice').value,
+                quantity: document.getElementById('updateProductQuantity').value
+            };
+
+            const productId = document.getElementById('updateProductId').value;
+
+            fetch(API_URL + '/update/' + productId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedProduct),
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            });
+        }
+
+        // Delete Product
+        function deleteProduct() {
+            const productId = document.getElementById('deleteProductId').value;
+
+            fetch(API_URL + '/remove/' + productId, {
+                method: 'DELETE',
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            });
+        }
+
+        // Search Product
+        function searchProduct() {
+            const productName = document.getElementById('searchProductName').value;
+
+            fetch(API_URL + '/search/' + productName)
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('searchResult');
+                if (data) {
+                    resultDiv.innerHTML = `<p>ID: ${data.id}, Name: ${data.name}, Price: $${data.price}, Quantity: ${data.quantity}</p>`;
+                } else {
+                    resultDiv.innerHTML = '<p>Product not found!</p>';
+                }
+            });
+        }
+
+        // List Products
+        function listProducts() {
+            fetch(API_URL + '/list')
+            .then(response => response.json())
+            .then(data => {
+                const productList = document.getElementById('productList');
+                productList.innerHTML = '';
+                data.forEach(product => {
+                    const li = document.createElement('li');
+                    li.textContent = `ID: ${product.id}, Name: ${product.name}, Price: $${product.price}, Quantity: ${product.quantity}`;
+                    productList.appendChild(li);
+                });
+            });
+        }
+    </script>
+-->

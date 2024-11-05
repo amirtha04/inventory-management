@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Products</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>eMart Inventory</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="add-product.html">Add Products</a></li>
+                <li><a href="update-product.html">Update Products</a></li>
+                <li><a href="delete-product.html">Delete Products</a></li>
+                <li><a href="search-product.html">Search Products</a></li>
+                <li><a href="list-product.html">List Products</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>List of Products</h1>
+
+            <!-- Table of products -->
+            <div class="section">
+                <h3>Product Inventory</h3><br>
+                <button class="button" onclick="listProducts()">List Products</button>
+                <table id="productTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <!-- Table rows will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080/api/products';
+
+        // List Products function
+        function listProducts() {
+            fetch(API_URL + '/list')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('productTableBody');
+                tableBody.innerHTML = ''; // Clear previous content
+                
+                // Loop through the product data and populate the table rows
+                data.forEach(product => {
+                    const row = document.createElement('tr');
+
+                    const idCell = document.createElement('td');
+                    idCell.textContent = product.id;
+                    row.appendChild(idCell);
+
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = product.name;
+                    row.appendChild(nameCell);
+
+                    const priceCell = document.createElement('td');
+                    priceCell.textContent = `$${product.price}`;
+                    row.appendChild(priceCell);
+
+                    const quantityCell = document.createElement('td');
+                    quantityCell.textContent = product.quantity;
+                    row.appendChild(quantityCell);
+
+                    tableBody.appendChild(row);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

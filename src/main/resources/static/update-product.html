@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Products</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>eMart Inventory</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="add-product.html">Add Products</a></li>
+                <li><a href="update-product.html">Update Products</a></li>
+                <li><a href="delete-product.html">Delete Products</a></li>
+                <li><a href="search-product.html">Search Products</a></li>
+                <li><a href="list-product.html">List Products</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Update Product</h1>
+            <form>
+                <input type="text" id="updateProductId" placeholder="Product ID" required>
+                <input type="text" id="updateProductName" placeholder="New Product Name" required>
+                <input type="number" id="updateProductPrice" placeholder="New Product Price" required>
+                <input type="number" id="updateProductQuantity" placeholder="New Product Quantity" required>
+                <button type="submit" class="button" onclick="updateProduct()">Update Product</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080/api/products';
+        // Update Product
+        function updateProduct() {
+            const updatedProduct = {
+                name: document.getElementById('updateProductName').value,
+                price: document.getElementById('updateProductPrice').value,
+                quantity: document.getElementById('updateProductQuantity').value
+            };
+
+            const productId = document.getElementById('updateProductId').value;
+
+            fetch(API_URL + '/update/' + productId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedProduct),
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            });
+        }
+
+    </script>
+</body>
+</html>

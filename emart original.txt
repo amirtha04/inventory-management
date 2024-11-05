@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Mart Inventory Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>E-Mart Inventory Management</h1>
+        <p>Effortless Product Management for Your Grocery Store</p>
+
+        <div class="section">
+            <h2>Welcome to eMart Inventory Manager. Simplify your inventory tasks with our easy-to-use platform!</h2>
+            <img src="https://cdni.iconscout.com/illustration/premium/thumb/young-man-working-on-automated-warehouse-management-illustration-download-in-svg-png-gif-file-formats--smart-factory-production-pack-people-illustrations-6430806.png"> 
+        </div>
+
+        <!-- Add Product -->
+        <div class="section">
+            <h2>Add Product</h2>
+            <input type="text" id="productId" placeholder="Product ID">
+            <input type="text" id="productName" placeholder="Product Name">
+            <input type="number" id="productPrice" placeholder="Product Price">
+            <input type="number" id="productQuantity" placeholder="Product Quantity">
+            <button class="button" onclick="addProduct()">Add Product</button>
+        </div>
+
+        <hr>
+
+        <!-- Update Product -->
+        <div class="section">
+            <h2>Update Product</h2>
+            <input type="text" id="updateProductId" placeholder="Product ID">
+            <input type="text" id="updateProductName" placeholder="New Product Name">
+            <input type="number" id="updateProductPrice" placeholder="New Product Price">
+            <input type="number" id="updateProductQuantity" placeholder="New Product Quantity">
+            <button class="button" onclick="updateProduct()">Update Product</button>
+        </div>
+
+        <hr>
+
+        <!-- Delete Product -->
+        <div class="section">
+            <h2>Delete Product</h2>
+            <input type="text" id="deleteProductId" placeholder="Product ID">
+            <button class="button" onclick="deleteProduct()">Delete Product</button>
+        </div>
+
+        <hr>
+
+        <!-- Search Product -->
+        <div class="section">
+            <h2>Search Product</h2>
+            <input type="text" id="searchProductName" placeholder="Product Name">
+            <button class="button" onclick="searchProduct()">Search Product</button>
+            <div id="searchResult"></div>
+        </div>
+
+        <hr>
+
+        <!-- List Products -->
+        <div class="section">
+            <h2>Product Inventory</h2>
+            <button class="button" onclick="listProducts()">List Products</button>
+            <ul id="productList"></ul>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080/api/products';
+
+        // Add Product
+        function addProduct() {
+            const product = {
+                id: document.getElementById('productId').value,
+                name: document.getElementById('productName').value,
+                price: document.getElementById('productPrice').value,
+                quantity: document.getElementById('productQuantity').value
+            };
+
+            fetch(API_URL + '/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(product),
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            });
+        }
+
+        // Update Product
+        function updateProduct() {
+            const updatedProduct = {
+                name: document.getElementById('updateProductName').value,
+                price: document.getElementById('updateProductPrice').value,
+                quantity: document.getElementById('updateProductQuantity').value
+            };
+
+            const productId = document.getElementById('updateProductId').value;
+
+            fetch(API_URL + '/update/' + productId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedProduct),
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            });
+        }
+
+        // Delete Product
+        function deleteProduct() {
+            const productId = document.getElementById('deleteProductId').value;
+
+            fetch(API_URL + '/remove/' + productId, {
+                method: 'DELETE',
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            });
+        }
+
+        // Search Product
+        function searchProduct() {
+            const productName = document.getElementById('searchProductName').value;
+
+            fetch(API_URL + '/search/' + productName)
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('searchResult');
+                if (data) {
+                    resultDiv.innerHTML = `<p>ID: ${data.id}, Name: ${data.name}, Price: $${data.price}, Quantity: ${data.quantity}</p>`;
+                } else {
+                    resultDiv.innerHTML = '<p>Product not found!</p>';
+                }
+            });
+        }
+
+        // List Products
+        function listProducts() {
+            fetch(API_URL + '/list')
+            .then(response => response.json())
+            .then(data => {
+                const productList = document.getElementById('productList');
+                productList.innerHTML = '';
+                data.forEach(product => {
+                    const li = document.createElement('li');
+                    li.textContent = `ID: ${product.id}, Name: ${product.name}, Price: $${product.price}, Quantity: ${product.quantity}`;
+                    productList.appendChild(li);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+css file
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+input {
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: calc(100% - 22px);
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #218838;
+}
+
+hr {
+    margin: 30px 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+#searchResult p {
+    font-size: 18px;
+    color: #555;
+}

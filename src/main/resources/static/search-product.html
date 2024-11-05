@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Products</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>eMart Inventory</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="add-product.html">Add Products</a></li>
+                <li><a href="update-product.html">Update Products</a></li>
+                <li><a href="delete-product.html">Delete Products</a></li>
+                <li><a href="search-product.html">Search Products</a></li>
+                <li><a href="list-product.html">List Products</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Search for a Product</h1>
+            <form onsubmit="return searchProduct(event)"> <!-- Prevent form submission -->
+                <input type="text" id="searchProductId" placeholder="Enter Product Name" required>
+                <button type="submit" class="button">Search</button>
+            </form>
+
+            <!-- Results section -->
+            <div id="searchResults">
+                <h2>Search Results</h2>
+                <div id="resultDiv">
+                    <!-- Results will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080/api/products';
+
+        // Search Product function
+        function searchProduct(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            const productId = document.getElementById('searchProductId').value;
+
+            // Fetch product details from API
+            fetch(`${API_URL}/search/${productId}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('resultDiv');
+
+                if (data) {
+                    // Creating the table dynamically for displaying the product details
+                    const table = `
+                        <table border="1" cellpadding="10" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>${data.id}</td>
+                                    <td>${data.name}</td>
+                                    <td>$${data.price}</td>
+                                    <td>${data.quantity}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                    resultDiv.innerHTML = table;
+                } else {
+                    resultDiv.innerHTML = '<p>Product not found!</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('resultDiv').innerHTML = '<p>Error fetching product data!</p>';
+            });
+        }
+    </script>
+</body>
+</html>

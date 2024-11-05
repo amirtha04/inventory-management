@@ -15,3 +15,5 @@ Search Products: Search for specific products by name.
 List Products: Display all products currently in inventory.
 
 Each page includes a sidebar for easy navigation across all sections.
+![Screenshot (1184)](https://github.com/user-attachments/assets/47010b6d-9c30-434f-96c8-731aa1ff5376)
+
